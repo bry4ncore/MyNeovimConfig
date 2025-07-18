@@ -11,7 +11,6 @@ vim.opt.termguicolors = true
 
 -- Basic Neovim options
 vim.opt.nu = true            -- Show line numbers
-vim.opt.relativenumber = true -- Show relative line numbers
 vim.opt.tabstop = 2          -- Tab width
 vim.opt.shiftwidth = 2       -- Indent width
 vim.opt.expandtab = true     -- Use spaces instead of tabs
@@ -44,6 +43,8 @@ vim.g.everforest_brightness = 'normal'
 vim.g.everforest_italic = 1
 vim.g.everforest_transparent_background = 1
 
+require "autopairs-config"
+
 require("nvim-tree").setup({
   sort = {
     sorter = "case_sensitive",
@@ -64,7 +65,7 @@ require('cmp_config')
 
 local lspconfig = require('lspconfig')
 
-lspconfig.pylsp.setup({
+lspconfig.pylsp.setup({ 
   -- opcional: adicione configurações específicas para pylsp aqui
   -- por exemplo, para ativar linters específicos
   settings = {
@@ -78,6 +79,20 @@ lspconfig.pylsp.setup({
   },
 })
 
+
+
+lspconfig.bashls.setup({
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'bash', 'sh' }
+})
+
+vim.lsp.enable 'bashls'
+
+
+
+--Mouse Support
+
+vim.o.mouse = 'a'
 
 --Mappings
 --

@@ -1,4 +1,4 @@
-local fn = vim.fn
+local fn = vim.fn 
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
 local ensure_packer = function()
@@ -47,10 +47,16 @@ packer_module.startup(function(use)
   use 'L3MON4D3/LuaSnip'
 
   use 'saadparwaiz1/cmp_luasnip'
-
-  use 'windwp/nvim-autopairs'
  
   use 'neovim/nvim-lspconfig'
+
+  use {
+      "windwp/nvim-autopairs",
+      event = "InsertEnter",
+      config = function()
+          require("nvim-autopairs").setup {}
+      end
+  }
 
   if packer_was_bootstrapped then
     packer_module.sync()
