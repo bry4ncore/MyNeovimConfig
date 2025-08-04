@@ -64,10 +64,10 @@ require("nvim-tree").setup({
 require('cmp_config')
 
 local lspconfig = require('lspconfig')
+local cmp_nvim_lsp = require('cmp_nvim_lsp')
 
+-- LSP for Pythob 
 lspconfig.pylsp.setup({ 
-  -- opcional: adicione configurações específicas para pylsp aqui
-  -- por exemplo, para ativar linters específicos
   settings = {
     pylsp = {
       plugins = {
@@ -80,7 +80,7 @@ lspconfig.pylsp.setup({
 })
 
 
-
+--LSP for Bash
 lspconfig.bashls.setup({
   cmd = { 'bash-language-server', 'start' },
   filetypes = { 'bash', 'sh' }
@@ -88,7 +88,26 @@ lspconfig.bashls.setup({
 
 vim.lsp.enable 'bashls'
 
+--LSP for C
+lspconfig.clangd.setup({
 
+    filetypes = { 'c', 'cpp' , 'objc', 'objcpp' , 'h'},
+
+    capabilities = cmp_nvim_lsp.default_capabilities(),
+    on_attach = function(client, bufnr)
+        local buf_set_keymap = vim.api.nvim_buf_set_keymap
+        local opts = { noremap = true, silent = true }
+
+        buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+        buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+    end,
+})
 
 --Mouse Support
 
